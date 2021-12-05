@@ -14,4 +14,4 @@ char    *ft_strjoin(char *s1 ,char *s2, char *mem_type);
 
 // get_next_line.c
 char	*return_line(char *buf, char *nl_ptr, char *static_space);
-char	*free_buf(char *buf, int return_null, char mem_type);
+char	*free_buf(char *buf, char mem_type, int reset_buf, int return_null);

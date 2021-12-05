@@ -11,15 +11,16 @@ int main(void)
     char *line;
     int i;
 
-    fd = open("test_files/text.txt", O_RDONLY);
+    fd = open("test_files/alternate_line_nl_no_nl.txt", O_RDONLY);
     line = get_next_line(fd);
     i = 0;
-    printf("-main start\n");
+    // printf("-main start\n");
     while (line)
     {
-        printf("#%i: |%s|", i, line);
+        // printf("#%i: |%s|", i, line);
+        printf("%s", line);
         line = get_next_line(fd);
         i++;
     }
-    printf("\n-main finished\n");
+    // printf("\n-main finished\n");
 }

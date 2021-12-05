@@ -1,7 +1,5 @@
 #include "get_next_line.h"
 
-
-
 void	*ft_calloc(size_t count, size_t size)
 {
     char *space;
@@ -49,7 +47,7 @@ char    *ft_strjoin(char *s1 ,char *s2, char *mem_type)
         return (NULL);
     memmove(strchr(str, '\0'), s1, s1_len);
     memmove(strchr(str, '\0'), s2, s2_len);
-    free_buf(s1, 0, mem_type[0]);
-    free_buf(s2, 0, mem_type[1]);
+    free_buf(s1, mem_type[0], 1, 0);
+    free_buf(s2, mem_type[1], 1, 0);
     return (str);
 }
