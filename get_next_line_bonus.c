@@ -1,26 +1,27 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "get_next_line.h"
+#include <limits.h>
 
 char	*get_next_line(int fd)
 {
-	static char	static_buf[BUFFER_SIZE + 1] = {0};
+	static char	static_buf[INT_MAX][BUFFER_SIZE + 1]; 
 	char		*buf;
 	int			read_status;
 	char		*nl_ptr;
 
-	nl_ptr = ft_strchr(static_buf, '\n');
+	nl_ptr = ft_strchr(static_buf[fd], '\n');
 	if (nl_ptr)
-		return (return_line(static_buf, nl_ptr, static_buf, 's'));
+		return (return_line(static_buf[fd], nl_ptr, static_buf[fd], 's'));
 	buf = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buf)
 		return (free_buf(buf, 'd', 0, 1));
 	read_status = read(fd, buf, BUFFER_SIZE);
-	buf = ft_strjoin(static_buf, buf, "sd");
+	buf = ft_strjoin(static_buf[fd], buf, "sd");
 	if ((read_status == 0 && !buf[0]) || read_status == -1)
 		return (free_buf(buf, 'd', 0, 1));
 	nl_ptr = ft_strchr(buf, '\n');
-	return (read_further(nl_ptr, fd, static_buf, buf));
+	return (read_further(nl_ptr, fd, static_buf[fd], buf));
 }
 
 char    *read_further(char *nl_ptr, int fd, char *static_buf, char *buf)
@@ -29,15 +30,15 @@ char    *read_further(char *nl_ptr, int fd, char *static_buf, char *buf)
 
     while (!nl_ptr)
     {
-        read_status = read(fd, static_buf, BUFFER_SIZE);
+        read_status = read(fd, &static_buf[fd], BUFFER_SIZE);
         if (read_status == 0)
-            return (return_line(buf, nl_ptr, static_buf, 'd'));
-        buf = ft_strjoin(buf, static_buf, "ds");
+            return (return_line(buf, nl_ptr, &static_buf[fd], 'd'));
+        buf = ft_strjoin(buf, &static_buf[fd], "ds");
         nl_ptr = ft_strchr(buf, '\n');
         if (!buf[0] || read_status == -1)
             return (free_buf(buf, 'd', 0, 1));
     }
-    return (return_line(buf, nl_ptr, static_buf, 'd'));
+    return (return_line(buf, nl_ptr, &static_buf[fd], 'd'));
 }
 
 char	*return_line(char *buf, char *nl_ptr, char *static_space, char mem_type)
