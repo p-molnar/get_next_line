@@ -10,7 +10,7 @@ void	*ft_calloc(size_t count, size_t size)
 	space = malloc(size * count);
 	if (!space)
 		return (NULL);
-	while ((unsigned long)i < size * count)
+	while ((unsigned long)i < (size * count))
 		space[i++] = '\0';
 	return ((void *)space);
 }
@@ -27,6 +27,8 @@ char	*ft_substr(char *start, char *end)
 	else
 		substr_len = ft_strchr(start, '\0') - start + 1;
 	substr = ft_calloc(substr_len + 1, sizeof(char));
+	if (!substr)
+		return (NULL);
 	while (i < substr_len)
 	{
 		substr[i] = start[i];
