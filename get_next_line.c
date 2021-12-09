@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   get_next_line.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: pmolnar <pmolnar@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2021/12/09 09:51:53 by pmolnar       #+#    #+#                 */
+/*   Updated: 2021/12/09 10:06:55 by pmolnar       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 #include <unistd.h>
 #include <limits.h>
@@ -19,6 +31,8 @@ char	*get_next_line(int fd)
 		return (free_buf(temp_buf, 'd', 0, 1));
 	read_status = read(fd, temp_buf, BUFFER_SIZE);
 	temp_buf = ft_strjoin(perm_buf, temp_buf, "sd");
+	if (!temp_buf)
+		return (free_buf(temp_buf, 'd', 0, 1));
 	if (read_status == 0 && !temp_buf[0])
 		return (free_buf(temp_buf, 'd', 0, 1));
 	nl_ptr = ft_strchr(temp_buf, '\n');
@@ -35,6 +49,8 @@ char	*read_further(char *nl_ptr, int fd, char *static_buf, char *buf)
 		if (read_status == 0)
 			return (return_line(buf, nl_ptr, static_buf, 'd'));
 		buf = ft_strjoin(buf, static_buf, "ds");
+		if (!buf)
+			return (free_buf(buf, 'd', 0, 1));
 		nl_ptr = ft_strchr(buf, '\n');
 		if (!buf[0] || read_status == -1)
 			return (free_buf(buf, 'd', 0, 1));
@@ -47,6 +63,8 @@ char	*return_line(char *buf, char *nl_ptr, char *perm_space, char mem_type)
 	char	*line;
 
 	line = ft_substr(buf, nl_ptr);
+	if (!line)
+		return (NULL);
 	if (nl_ptr && *(nl_ptr + 1))
 		ft_strlcpy(perm_space, nl_ptr + 1, BUFFER_SIZE + 1);
 	else

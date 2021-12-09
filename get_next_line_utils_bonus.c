@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   get_next_line_utils_bonus.c                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: pmolnar <pmolnar@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2021/12/09 09:52:00 by pmolnar       #+#    #+#                 */
+/*   Updated: 2021/12/09 10:07:55 by pmolnar       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 #include <stdlib.h>
 
@@ -72,9 +84,12 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 
 char	*ft_strchr(const char *s, int c)
 {
-	while (*s && *s != (char)c)
-		s++;
-	if (*s == (char)(c))
-		return ((char *)s);
+	if (s)
+	{
+		while (*s && *s != (char)c)
+			s++;
+		if (*s == (char)(c))
+			return ((char *)s);
+	}
 	return (NULL);
 }
