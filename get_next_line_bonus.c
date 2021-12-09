@@ -5,12 +5,12 @@
 /*                                                     +:+                    */
 /*   By: pmolnar <pmolnar@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/12/09 10:07:06 by pmolnar       #+#    #+#                 */
-/*   Updated: 2021/12/09 10:11:44 by pmolnar       ########   odam.nl         */
+/*   Created: 2021/12/09 09:51:53 by pmolnar       #+#    #+#                 */
+/*   Updated: 2021/12/09 16:28:08 by pmolnar       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <unistd.h>
 #include <limits.h>
 
@@ -28,12 +28,12 @@ char	*get_next_line(int fd)
 		return (return_line(perm_buf[fd], nl_ptr, perm_buf[fd], 's'));
 	temp_buf = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!temp_buf)
-		return (free_buf(temp_buf, 'd', 0, 1));
+		return (NULL);
 	read_status = read(fd, temp_buf, BUFFER_SIZE);
 	temp_buf = ft_strjoin(perm_buf[fd], temp_buf, "sd");
 	if (!temp_buf)
-		return (free_buf(temp_buf, 'd', 0, 1));
-	if (read_status == 0 && !temp_buf[0])
+		return (NULL);
+	if ((read_status == 0 && !temp_buf[0]) || read_status == -1)
 		return (free_buf(temp_buf, 'd', 0, 1));
 	nl_ptr = ft_strchr(temp_buf, '\n');
 	return (read_further(nl_ptr, fd, perm_buf[fd], temp_buf));
@@ -46,11 +46,13 @@ char	*read_further(char *nl_ptr, int fd, char *static_buf, char *buf)
 	while (!nl_ptr)
 	{
 		read_status = read(fd, static_buf, BUFFER_SIZE);
+		if (read_status > 0)
+			static_buf[read_status] = '\0';
 		if (read_status == 0)
 			return (return_line(buf, nl_ptr, static_buf, 'd'));
 		buf = ft_strjoin(buf, static_buf, "ds");
 		if (!buf)
-			return (free_buf(buf, 'd', 0, 1));
+			return (NULL);
 		nl_ptr = ft_strchr(buf, '\n');
 		if (!buf[0] || read_status == -1)
 			return (free_buf(buf, 'd', 0, 1));
@@ -58,17 +60,17 @@ char	*read_further(char *nl_ptr, int fd, char *static_buf, char *buf)
 	return (return_line(buf, nl_ptr, static_buf, 'd'));
 }
 
-char	*return_line(char *buf, char *nl_ptr, char *perm_space, char mem_type)
+char	*return_line(char *buf, char *nl_ptr, char *perm_buf, char mem_type)
 {
 	char	*line;
 
-	line = ft_substr(buf, nl_ptr);
+	line = ft_substr(buf, nl_ptr, mem_type);
 	if (!line)
 		return (NULL);
 	if (nl_ptr && *(nl_ptr + 1))
-		ft_strlcpy(perm_space, nl_ptr + 1, BUFFER_SIZE + 1);
+		ft_strlcpy(perm_buf, nl_ptr + 1, BUFFER_SIZE + 1);
 	else
-		free_buf(perm_space, 's', 1, 0);
+		free_buf(perm_buf, 's', 1, 0);
 	if (mem_type == 'd')
 		free_buf(buf, 'd', 0, 0);
 	return (line);

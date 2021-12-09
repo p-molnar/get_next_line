@@ -6,7 +6,7 @@
 /*   By: pmolnar <pmolnar@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/09 09:52:00 by pmolnar       #+#    #+#                 */
-/*   Updated: 2021/12/09 10:07:32 by pmolnar       ########   odam.nl         */
+/*   Updated: 2021/12/09 16:28:35 by pmolnar       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*ft_calloc(size_t count, size_t size)
 	return ((void *)space);
 }
 
-char	*ft_substr(char *start, char *end)
+char	*ft_substr(char *start, char *end, char mem_type)
 {
 	int		i;
 	int		substr_len;
@@ -40,7 +40,7 @@ char	*ft_substr(char *start, char *end)
 		substr_len = ft_strchr(start, '\0') - start + 1;
 	substr = ft_calloc(substr_len + 1, sizeof(char));
 	if (!substr)
-		return (NULL);
+		return (free_buf(start, mem_type, 0, 1));
 	while (i < substr_len)
 	{
 		substr[i] = start[i];
@@ -59,7 +59,11 @@ char	*ft_strjoin(char *s1, char *s2, char *mem_type)
 	s2_len = ft_strchr(s2, '\0') - s2;
 	str = ft_calloc(s1_len + s2_len + 1, sizeof(char));
 	if (!str)
+	{
+		free_buf(s1, mem_type[0], 1, 0);
+		free_buf(s2, mem_type[1], 1, 0);
 		return (NULL);
+	}
 	ft_strlcpy(ft_strchr(str, '\0'), s1, s1_len + 1);
 	ft_strlcpy(ft_strchr(str, '\0'), s2, s2_len + 1);
 	free_buf(s1, mem_type[0], 1, 0);
