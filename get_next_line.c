@@ -6,7 +6,7 @@
 /*   By: pmolnar <pmolnar@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/09 09:51:53 by pmolnar       #+#    #+#                 */
-/*   Updated: 2021/12/09 16:29:22 by pmolnar       ########   odam.nl         */
+/*   Updated: 2021/12/09 16:58:08 by pmolnar       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,25 @@ char	*get_next_line(int fd)
 	return (read_further(nl_ptr, fd, perm_buf, temp_buf));
 }
 
-char	*read_further(char *nl_ptr, int fd, char *static_buf, char *buf)
+char	*read_further(char *nl_ptr, int fd, char *perm_buf, char *buf)
 {
 	int	read_status;
 
 	while (!nl_ptr)
 	{
-		read_status = read(fd, static_buf, BUFFER_SIZE);
+		read_status = read(fd, perm_buf, BUFFER_SIZE);
 		if (read_status > 0)
-			static_buf[read_status] = '\0';
+			perm_buf[read_status] = '\0';
 		if (read_status == 0)
-			return (return_line(buf, nl_ptr, static_buf, 'd'));
-		buf = ft_strjoin(buf, static_buf, "ds");
+			return (return_line(buf, nl_ptr, perm_buf, 'd'));
+		buf = ft_strjoin(buf, perm_buf, "ds");
 		if (!buf)
 			return (NULL);
 		nl_ptr = ft_strchr(buf, '\n');
 		if (!buf[0] || read_status == -1)
 			return (free_buf(buf, 'd', 0, 1));
 	}
-	return (return_line(buf, nl_ptr, static_buf, 'd'));
+	return (return_line(buf, nl_ptr, perm_buf, 'd'));
 }
 
 char	*return_line(char *buf, char *nl_ptr, char *perm_buf, char mem_type)

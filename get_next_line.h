@@ -6,7 +6,7 @@
 /*   By: pmolnar <pmolnar@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/09 09:51:55 by pmolnar       #+#    #+#                 */
-/*   Updated: 2021/12/09 13:29:44 by pmolnar       ########   odam.nl         */
+/*   Updated: 2021/12/09 16:58:49 by pmolnar       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
 char	*return_line(char *buf, char *nl_ptr, char *perm_space, char mem_type);
 char	*free_buf(char *buf, char mem_type, int reset_buf, int return_null);
-char	*read_further(char *nl_ptr, int fd, char *static_buf, char *buf);
+char	*read_further(char *nl_ptr, int fd, char *perm_buf, char *buf);
 #endif
