@@ -6,7 +6,7 @@
 /*   By: pmolnar <pmolnar@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/09 09:51:55 by pmolnar       #+#    #+#                 */
-/*   Updated: 2021/12/09 16:58:37 by pmolnar       ########   odam.nl         */
+/*   Updated: 2022/05/18 15:24:10 by pmolnar       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 
 char	*get_next_line(int fd);
 
-void	*ft_calloc(size_t count, size_t size);
-char	*ft_substr(char *start, char *end, char mem_type);
-char	*ft_strjoin(char *s1, char *s2, char *mem_type);
-char	*ft_strchr(const char *s, int c);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+void	*gnl_calloc(size_t count, size_t size);
+char	*gnl_substr(char *start, char *end, char mem_type);
+char	*gnl_strjoin(char *s1, char *s2, char *mem_type);
+char	*gnl_strchr(const char *s, int c);
+size_t	gnl_strlcpy(char *dst, const char *src, size_t dstsize);
 
 char	*return_line(char *buf, char *nl_ptr, char *perm_space, char mem_type);
 char	*free_buf(char *buf, char mem_type, int reset_buf, int return_null);

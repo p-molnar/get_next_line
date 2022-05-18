@@ -6,7 +6,7 @@
 /*   By: pmolnar <pmolnar@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/09 09:51:53 by pmolnar       #+#    #+#                 */
-/*   Updated: 2021/12/09 16:58:08 by pmolnar       ########   odam.nl         */
+/*   Updated: 2022/05/18 15:24:10 by pmolnar       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || fd > OPEN_MAX)
 		return (NULL);
-	nl_ptr = ft_strchr(perm_buf, '\n');
+	nl_ptr = gnl_strchr(perm_buf, '\n');
 	if (nl_ptr)
 		return (return_line(perm_buf, nl_ptr, perm_buf, 's'));
-	temp_buf = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	temp_buf = gnl_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!temp_buf)
 		return (NULL);
 	read_status = read(fd, temp_buf, BUFFER_SIZE);
-	temp_buf = ft_strjoin(perm_buf, temp_buf, "sd");
+	temp_buf = gnl_strjoin(perm_buf, temp_buf, "sd");
 	if (!temp_buf)
 		return (NULL);
 	if ((read_status == 0 && !temp_buf[0]) || read_status == -1)
 		return (free_buf(temp_buf, 'd', 0, 1));
-	nl_ptr = ft_strchr(temp_buf, '\n');
+	nl_ptr = gnl_strchr(temp_buf, '\n');
 	return (read_further(nl_ptr, fd, perm_buf, temp_buf));
 }
 
@@ -50,10 +50,10 @@ char	*read_further(char *nl_ptr, int fd, char *perm_buf, char *buf)
 			perm_buf[read_status] = '\0';
 		if (read_status == 0)
 			return (return_line(buf, nl_ptr, perm_buf, 'd'));
-		buf = ft_strjoin(buf, perm_buf, "ds");
+		buf = gnl_strjoin(buf, perm_buf, "ds");
 		if (!buf)
 			return (NULL);
-		nl_ptr = ft_strchr(buf, '\n');
+		nl_ptr = gnl_strchr(buf, '\n');
 		if (!buf[0] || read_status == -1)
 			return (free_buf(buf, 'd', 0, 1));
 	}
@@ -64,11 +64,11 @@ char	*return_line(char *buf, char *nl_ptr, char *perm_buf, char mem_type)
 {
 	char	*line;
 
-	line = ft_substr(buf, nl_ptr, mem_type);
+	line = gnl_substr(buf, nl_ptr, mem_type);
 	if (!line)
 		return (NULL);
 	if (nl_ptr && *(nl_ptr + 1))
-		ft_strlcpy(perm_buf, nl_ptr + 1, BUFFER_SIZE + 1);
+		gnl_strlcpy(perm_buf, nl_ptr + 1, BUFFER_SIZE + 1);
 	else
 		free_buf(perm_buf, 's', 1, 0);
 	if (mem_type == 'd')
