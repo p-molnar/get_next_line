@@ -1,21 +1,21 @@
 # get_next_line (C getline reimplementation)
 
 ## Introduction
-This repository contains the reimplementation of [`getline()`](https://man7.org/linux/man-pages/man3/getline.3.html) function that returns a line read from a defined file descriptor.
+This repository contains a reimplementation of the [`getline()`](https://man7.org/linux/man-pages/man3/getline.3.html) function, which reads a line from a specified file descriptor.
 
-The way this function differs from the standard `getline()` is that `get_next_line` takes a compiler flag to define a `BUFFER_SIZE`, which defines the maximum read size each time the function is called.
+The key difference between this function and the standard `getline()` is that `get_next_line` allows you to define a `BUFFER_SIZE` compiler flag. This flag determines the maximum amount of data read each time the function is called.
 
 ## Features
-Mandatory part:
-- returns line from file descriptor
-- read up to `BUFFER_SIZE` of data from a defined file descriptor
+**Mandatory part:**
+- Returns a line from a file descriptor.
+- Reads up to `BUFFER_SIZE` data from a specified file descriptor.
 
-Bonus part:
-- on top of the mandatory part, the bonus is able to read from multiple file descriptors at the same time
+**Bonus part:**
+- In addition to the mandatory features, the bonus part enables reading from multiple file descriptors simultaneously, ensuring that the input reads from different file descriptors do not interfere with each other.
 
 ## Getting Started
 
-To get started with this project, clone the repository into the root of your project directory:
+To begin using this project, clone the repository into your project's root directory:
 
 ```bash
 git clone https://github.com/p-molnar/get_next_line.git
@@ -25,8 +25,9 @@ git clone https://github.com/p-molnar/get_next_line.git
 
 ### For the mandatory `get_next_line()`
 
-The example below shows how you can include the `get_next_line()` into your own projects by including the `get_next_line`'s headers and source files:
-1. The directory structure your `project` may look as follows after cloning the repo.
+Below is an example illustrating how to integrate `get_next_line()` into your projects by including the necessary headers and source files:
+
+1. After cloning the repository, your project directory structure should resemble the following:
 
 ```bash
 project
@@ -45,8 +46,8 @@ project
 
 ```
 
-2. To include `get_next_line()` into your file, include `get_next_line.h` header, and call `get_next_line()` in a loop to read from a given file descriptor.
-   
+2. To utilize `get_next_line()` in your code, include the `get_next_line.h` header and invoke the function in a loop to read from a specified file descriptor.
+
 ```c
 #include <get_next_line.h>
 #include <stdio.h>
@@ -70,18 +71,16 @@ int main(void)
 }
 ```
 
-3. To compile `get_next_line` into your project, you need to do it as follows, and define `n` for read size.
-```bash
-gcc -Wall -Wextra -Werror -I get_next_line -D BUFFER_SIZE=<n> main.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c 
-```
-For example
+3. To compile `get_next_line` into your project, use the following command, specifying the desired read size by defining `BUFFER_SIZE`, e.g., 256 bytes:
+
 ```bash
 gcc -Wall -Wextra -Werror -I get_next_line -D BUFFER_SIZE=256 main.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c 
 ```
 
 ### For the bonus `get_next_line()` to read from multiple file descriptors:
 
-1. Update your `main()` to open multiple files:
+1. Update your `main()` function to open multiple files:
+
 ```c
 #include <get_next_line.h>
 #include <stdio.h>
@@ -121,9 +120,10 @@ int main(void)
 }
 ```
 
-2. To compile `get_next_line` into your project, you need to do it as follows, and define `n` for read size.
+2. To compile `get_next_line` with the bonus functionality, follow the same compilation process as before, but include the bonus source files and define `BUFFER_SIZE`, e.g., 256 bytes:
+
 ```bash
-gcc -Wall -Wextra -Werror -I get_next_line -D BUFFER_SIZE=<n> main.c get_next_line/get_next_line_bonus.c get_next_line/get_next_line_utils_bonus.c 
+gcc -Wall -Wextra -Werror -I get_next_line -D BUFFER_SIZE=256 main.c get_next_line/get_next_line_bonus.c get_next_line/get_next_line_utils_bonus.c 
 ```
 
 ## License
